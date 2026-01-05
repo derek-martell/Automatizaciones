@@ -1,0 +1,30 @@
+name: Boletin Mundo Social Diario
+
+on:
+  schedule:
+    # Se ejecuta a las 13:00 UTC (8:00 AM hora de Perú)
+    - cron: '0 13 * * *'
+  workflow_dispatch: # Botón para ejecutarlo manualmente
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout del código
+        uses: actions/checkout@v3
+
+      - name: Configurar Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Instalar dependencias
+        run: |
+          pip install -r requirements.txt
+
+      - name: Ejecutar script principal
+        env:
+          # Aquí vinculamos tus Secrets con el script
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+          EMAIL_PASSWORD: ${{ secrets.EMAIL_PASSWORD }}
+        run: python main.py
