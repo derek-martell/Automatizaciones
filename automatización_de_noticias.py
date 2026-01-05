@@ -20,10 +20,13 @@ from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import time
 
+import os
+
+# En lugar de poner el texto directo, usamos os.environ
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+EMAIL_PASS_ENV = os.environ.get("EMAIL_PASSWORD")
 
 
-# 1. CONFIGURACIÓN DE APIS
-GEMINI_API_KEY = "AIzaSyCYp6h_wPiy1FMHXY_6lvZbI6fQ4XHO3_o"
 genai.configure(api_key=GEMINI_API_KEY)
 
 # Cambiado a 2.5-flash que es el que confirmamos que funciona en tu cuenta
@@ -212,40 +215,36 @@ def build_html_report(boletin):
         </div>
     </body>
     </html>
-    """
-
+    """ 
     return html
+    
 
-# 5. ENVÍO
+            
 def send_email(html_content):
     if not html_content:
         return
 
     remitente = "yago.martell@unmsm.edu.pe"
-    # 1. Definimos la lista de destinatarios
-    destinatarios = ["JeffCB40@gmail.com" , "jeff.cruzado@unmsm.edu.pe"]
-    password = "pzdt ochf xqhu acmq"
-
+    destinatarios = ["7073248@gmail.com"]
+    
+    # IMPORTANTE: Aquí usamos la variable global que definimos arriba
+    # No hace falta poner "password = password"
+    
     msg = MIMEMultipart("alternative")
     msg["Subject"] = f"📊 Boletín DEREK MARTELL - {datetime.now().strftime('%d/%m')}"
     msg["From"] = f"DEREK MARTELL AI <{remitente}>"
-
-    # 2. IMPORTANTE: Convertimos la lista en un string separado por comas
-    # Esto es para que en el correo aparezcan todos en el campo "Para:"
     msg["To"] = ", ".join(destinatarios)
-
     msg.attach(MIMEText(html_content, "html"))
 
     try:
         with smtplib.SMTP("smtp.gmail.com", 587) as server:
             server.starttls()
-            server.login(remitente, password)
-            # 3. Enviamos el mensaje
-            # smtplib detectará automáticamente a todos los destinatarios del campo 'To'
+            # Usamos directamente la variable global EMAIL_PASS_ENV
+            server.login(remitente, EMAIL_PASS_ENV) 
             server.send_message(msg)
-        print(f"Boletín enviado con éxito a: {', '.join(destinatarios)}")
+        print(f"✅ Boletín enviado con éxito.")
     except Exception as e:
-        print(f"Error al enviar email: {e}")
+        print(f"❌ Error al enviar email: {e}")
 
 if __name__ == "__main__":
     datos = get_intelligent_news()
