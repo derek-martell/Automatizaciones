@@ -7,7 +7,7 @@ from datetime import datetime
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import time
-
+import os
 # En lugar de poner el texto directo, usamos os.environ
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
 EMAIL_PASS_ENV = os.environ.get("EMAIL_PASSWORD")
