@@ -2,8 +2,8 @@ name: Boletin Mundo Social Diario
 
 on:
   schedule:
-    # Se ejecuta a las 11:40 PM hora de Perú (04:40 UTC)
-    - cron: '40 4 * * *'
+    # Se ejecuta a las 05:00 AM hora de Perú (10:00 UTC)
+    - cron: '0 10 * * *'
   workflow_dispatch: # Botón para ejecutarlo manualmente
 
 jobs:
