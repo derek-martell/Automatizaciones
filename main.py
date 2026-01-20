@@ -234,8 +234,8 @@ def send_email(html_content):
     # No hace falta poner "password = password"
     
     msg = MIMEMultipart("alternative")
-    msg["Subject"] = f"📊 Boletín DEREK MARTELL - {datetime.now().strftime('%d/%m')}"
-    msg["From"] = f"DEREK MARTELL AI <{remitente}>"
+    msg["Subject"] = f"📊 Boletín Mundo Social - {datetime.now().strftime('%d/%m')}"
+    msg["From"] = f"Mundo Social AI <{remitente}>"
     msg["To"] = ", ".join(destinatarios)
     msg.attach(MIMEText(html_content, "html"))
 
